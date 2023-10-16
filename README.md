@@ -27,7 +27,7 @@ python -um dopamine.discrete_domains.train --base_dir results_folder \
 The experiments should take from 5 to 7 days in order to run the complete 200M timesteps of training
 
 **Installation**
-1. To run experiments on Atari, you will need to get the ROMS as described in the [ale-y](https://github.com/Farama-Foundation/Arcade-Learning-Environment) (i.e. by using `ale-import-rom` on directory containing the ROMS to import them), or by using [atari-py](https://github.com/openai/atari-py#roms) (i.e. `python -m atari_py.import_roms folder_containing_roms`).
+1. To run experiments on Atari, you will need to get the ROMS as described in the [ale-py](https://github.com/Farama-Foundation/Arcade-Learning-Environment) (i.e. by using `ale-import-rom` on directory containing the ROMS to import them), or by using [atari-py](https://github.com/openai/atari-py#roms) (i.e. `python -m atari_py.import_roms folder_containing_roms`).
 
 2. To install the necessary requirements, with a `virutalenv` or conda environment, simply do
 
