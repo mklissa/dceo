@@ -46,6 +46,7 @@ pip install -e .
 As DCEO performs remarkably well compared to several HRL baseline (such as DIAYN, CIC and DCO) as well as exploration baselines (such as RND and Counts), we believe it is important to facilitate the usage of Laplacian-based options. Therefore we must answer, what is the minimum amount of code needed to launch some experiments using such options? We answer this question by point at snippets of code in this repository.
 
 **Learning the Laplacian representation**
+
 The first step is to integrate the loss for learning the Laplacian representation on which the options are based. This can be done with the following
 
 ```
@@ -106,6 +107,7 @@ all_phis = (phi_tm1, phi_t, phi_u, phi_v)
 Here `phi_tm1` and `phi_t` are consecutive states whereas `phi_u` and `phi_v` are random samples.
 
 **Option Learning**
+
 To learn each of the options, we need to define the intrinsic reward from Section 3 in the paper. We then iterate over all the options and update each of them using this intrinsic reward signal.
 
 ```
@@ -126,6 +128,7 @@ for o in onp.random.choice(self.num_options, 1, replace=False):
 ```
 
 **Option Execution**
+
 Our option execution algorithm defined in Algorithm 1 in the paper is straightforward as it does not rely on meta-policies or parametrized terminations functions. The following code implements it.
 
 ```
