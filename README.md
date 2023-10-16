@@ -1,5 +1,5 @@
 # Overview
-This repository contains JAX code for the implementation of the Deep Covering Eigenoptions (DCEO) algorithm which learns a diverse set of task-agnostic options to improve exploration. We additionally provide a general guide to the integration of Lplacian-based options in a different codebase.
+This repository contains JAX code for the implementation of the Deep Covering Eigenoptions (DCEO) algorithm which learns a diverse set of task-agnostic options to improve exploration. We additionally provide a general guide to the integration of Laplacian-based options in a different codebase.
 
 **[Deep Laplacian-based Options for Temporally-Extended Exploration](https://proceedings.mlr.press/v202/klissarov23a/klissarov23a.pdf)**
 
