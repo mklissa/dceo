@@ -10,6 +10,10 @@ DCEO is based on the idea of the [Representation Driven Option Disovery](https:/
 ![dceo](https://github.com/mklissa/deco_dopamine/assets/22938475/285c7ed1-f1a3-499f-8655-5802ee4738c9)
 
 # Atari Results
+
+![mr_repo](https://github.com/mklissa/dceo/assets/22938475/4d028716-49ee-41f6-bb4e-38bf653e0697)
+
+
 In this repository, we can only share the code with respect to the Montezuma's Revenge experiments, which are built on the [Dopamine](https://github.com/google/dopamine) codebase. To replicate the results on Montezuma's Revenge, only two files need to be added with respect to the original repository: `full_rainbow_dceo.gin` and `full_rainbow_dceo.py` which are both located in `dopamine/jax/agents/full_rainbow`. 
 
 For the sake of simplicity we include the complete Dopamine code source. To replicate results on Montezuma's Revenge, simply run the following
