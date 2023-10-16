@@ -17,8 +17,8 @@ For the sake of simplicity we include the complete Dopamine code source. To repl
 ```
 python -um dopamine.discrete_domains.train --base_dir results_folder \
      --gin_files "dopamine/jax/agents/full_rainbow/configs/full_rainbow_dceo.gin" \
-    --gin_bindings "atari_lib.create_atari_environment.game_name='MontezumaRevenge'" \
-    --gin_bindings "JaxFullRainbowAgentDCEO.seed=1337" \
+     --gin_bindings "atari_lib.create_atari_environment.game_name='MontezumaRevenge'" \
+     --gin_bindings "JaxFullRainbowAgentDCEO.seed=1337"
 ```
 The experiments should take from 5 to 7 days in order to run the complete 200M timesteps of training
 
