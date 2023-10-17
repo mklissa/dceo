@@ -5,7 +5,7 @@ This repository contains JAX code for the implementation of the Deep Covering Ei
 
 by [Martin Klissarov](https://mklissa.github.io) and [Marlos C. Machado](https://webdocs.cs.ualberta.ca/~machado/). 
 
-DCEO is based on the idea of the [Representation Driven Option Disovery](https://medium.com/@marlos.cholodovskis/the-representation-driven-option-discovery-cycle-e3f5877696c2) cycle where options and representations are iteratively refined and bootstrapped from eachother. In this work, we argue that the Laplacian representation (also referred to as [Proto-Value Functions](https://homes.cs.washington.edu/~todorov/courses/amath579/reading/PVF.pdf)) is very well-suited scaffold for option discovery as it naturally encodes the topology of the environment at various timescales.
+DCEO is based on the idea of the [Representation Driven Option Disovery](https://medium.com/@marlos.cholodovskis/the-representation-driven-option-discovery-cycle-e3f5877696c2) cycle where options and representations are iteratively refined and bootstrapped from eachother. In this work, we argue that the Laplacian representation (also referred to as [Proto-Value Functions](https://homes.cs.washington.edu/~todorov/courses/amath579/reading/PVF.pdf) and closely related to the [Successor Representation](https://arxiv.org/abs/1710.11089)) is very well-suited scaffold for option discovery as it naturally encodes the topology of the environment at various timescales.
 
 
 <div align="center">
@@ -19,7 +19,7 @@ We present a more in-depth overview in the [project website](https://sites.googl
 ![mr_repo](https://github.com/mklissa/dceo/assets/22938475/4d028716-49ee-41f6-bb4e-38bf653e0697)
 
 
-In this repository, we can only share the code with respect to the Montezuma's Revenge experiments, which are built on the [Dopamine](https://github.com/google/dopamine) codebase. To replicate the results on Montezuma's Revenge, only two files need to be added with respect to the original repository: `full_rainbow_dceo.gin` and `full_rainbow_dceo.py` which are both located in `dopamine/jax/agents/full_rainbow`. 
+In this repository, we share the code with respect to the Montezuma's Revenge experiments, which are built on the [Dopamine](https://github.com/google/dopamine) codebase. To replicate the results on Montezuma's Revenge, only two files need to be added with respect to the original repository: `full_rainbow_dceo.gin` and `full_rainbow_dceo.py` which are both located in `dopamine/jax/agents/full_rainbow`. 
 
 For the sake of simplicity we include the complete Dopamine code source. To replicate results on Montezuma's Revenge, simply run the following
 
@@ -29,10 +29,10 @@ python -um dopamine.discrete_domains.train --base_dir results_folder \
      --gin_bindings "atari_lib.create_atari_environment.game_name='MontezumaRevenge'" \
      --gin_bindings "JaxFullRainbowAgentDCEO.seed=1337"
 ```
-The experiments should take from 5 to 7 days in order to run the complete 200M timesteps of training
+The experiments should take from 5 to 7 days in order to run the complete 200M timesteps of training using A100s GPUs, 10 CPU cores and 60G of RAM.
 
 **Installation**
-1. To run experiments on Atari, you will need to get the ROMS as described in the [ale-py](https://github.com/Farama-Foundation/Arcade-Learning-Environment) (i.e. by using `ale-import-rom` on directory containing the ROMS to import them), or by using [atari-py](https://github.com/openai/atari-py#roms) (i.e. `python -m atari_py.import_roms folder_containing_roms`).
+1. To run experiments on Atari, you will need to get the Atari ROMS as described in the [ale-py](https://github.com/Farama-Foundation/Arcade-Learning-Environment) (i.e. by using `ale-import-rom` on directory containing the ROMS to import them), or by using [atari-py](https://github.com/openai/atari-py#roms) (i.e. `python -m atari_py.import_roms folder_containing_roms`).
 
 2. To install the necessary requirements, with a `virutalenv` or conda environment, simply do
 
@@ -48,11 +48,11 @@ pip install -e .
 
 # How do I use Laplacian-based options in my codebase?
 
-As DCEO performs remarkably well compared to several HRL baseline (such as DIAYN, CIC and DCO) as well as exploration baselines (such as RND and Counts), we believe it is important to facilitate the usage of Laplacian-based options. Therefore we must answer, what is the minimum amount of code needed to launch some experiments using such options? We answer this question by point at snippets of code in this repository.
+As DCEO performs remarkably well compared to several HRL baseline (such as DIAYN, CIC and DCO) as well as exploration baselines (such as RND and Counts), we believe it is important to facilitate the usage of Laplacian-based options. Therefore we must answer, _what is the minimum amount of code needed to launch some experiments using such options?_ We answer this question by pointing at snippets of code in this repository.
 
 **Learning the Laplacian representation**
 
-The first step is to integrate the loss for learning the Laplacian representation on which the options are based. This can be done with the following
+The first step is to integrate the loss for learning the [Laplacian representation](https://arxiv.org/abs/2107.05545) on which the options are based. This can be done with the following
 
 ```
 def neg_loss_fn(phi_u, phi_v):
@@ -110,6 +110,8 @@ all_phis = (phi_tm1, phi_t, phi_u, phi_v)
     self.rep_optimizer_state, all_phis)
 ```
 Here `phi_current` and `phi_next` are consecutive states whereas `phi_random_u` and `phi_random_u` are randomly sampled states.
+
+Note that recent improvements on this representation learning method have lead to the Proper Laplacian for which a [GitHub repository](https://github.com/tarod13/laplacian_dual_dynamics) exists.
 
 **Option Learning**
 
