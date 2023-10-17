@@ -1,5 +1,7 @@
 # Overview
-This repository contains JAX code for the implementation of the Deep Covering Eigenoptions (DCEO) algorithm which learns a diverse set of task-agnostic options to improve exploration. We additionally provide a general guide to the integration of Laplacian-based options in a different codebase.
+This repository contains JAX code for the implementation of the Deep Covering Eigenoptions (DCEO) algorithm which learns a diverse set of task-agnostic options to improve exploration. 
+
+We additionally provide a general guide to the integration of Laplacian-based options in a different codebase.
 
 **[Deep Laplacian-based Options for Temporally-Extended Exploration](https://proceedings.mlr.press/v202/klissarov23a/klissarov23a.pdf)**
 
@@ -55,15 +57,18 @@ As DCEO performs remarkably well compared to several HRL baseline (such as DIAYN
 The first step is to integrate the loss for learning the [Laplacian representation](https://arxiv.org/abs/2107.05545) on which the options are based. This can be done with the following
 
 ```
+square_div_dim = lambda x : x**2 / rep_dim
+norm_transform = jnp.log1p if self._log_transform else square_div_dim # Defaults to jnp.log1p
+
 def neg_loss_fn(phi_u, phi_v):
   loss = 0
   for dim in range(rep_dim, 0, -1):
     coeff = coeff_vector[dim-1] - coeff_vector[dim]
-    x_norm = jnp.sqrt(jnp.dot(phi_u[:dim], phi_u[:dim]))
-    y_norm = jnp.sqrt(jnp.dot(phi_v[:dim], phi_v[:dim]))
+    u_norm = jnp.sqrt(jnp.dot(phi_u[:dim], phi_u[:dim]))
+    v_norm = jnp.sqrt(jnp.dot(phi_v[:dim], phi_v[:dim]))
     dot_product = jnp.dot(phi_u[:dim], phi_v[:dim])
     loss += coeff * (
-      dot_product ** 2 - jnp.log(1 + x_norm)  - jnp.log(1 + y_norm)  )
+      dot_product ** 2 - norm_transform(u_norm)  - norm_transform(v_norm)  )
   return loss
 
 neg_loss_vmap = jax.vmap(neg_loss_fn)
