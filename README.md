@@ -68,14 +68,14 @@ def train_rep(rep_params, optimizer, optimizer_state, states):
   def loss_fn(params):
     """Calculates loss given network parameters and transitions."""
     def rep_online(state):
-      return rep_network_def.apply(params, state)
-    phis = jax.vmap(rep_online)(states).q_values
+      return rep_network_def.apply(params, state) # Same CNN+MLP encoder as for the Q values
+    phis = jax.vmap(rep_online)(states).output
 
     phis = jnp.split(phis, 4, axis=0)
-    phi_tm1, phi_t, phi_u, phi_v = phis[0], phis[1], phis[2], phis[3]
+    phi_current, phi_next, phi_random_u, phi_random_v = phis[0], phis[1], phis[2], phis[3]
 
-    pos_loss = ((phi_tm1 - phi_t)**2).dot(coeff_vector[:rep_dim])
-    neg_loss = neg_loss_vmap(phi_u, phi_v)
+    pos_loss = ((phi_current - phi_next)**2).dot(coeff_vector[:rep_dim])
+    neg_loss = neg_loss_vmap(phi_random_u, phi_random_v)
 
     loss = pos_loss + neg_loss
     loss = jnp.mean(loss)
@@ -104,7 +104,7 @@ all_phis = (phi_tm1, phi_t, phi_u, phi_v)
     self.rep_params, self.optimizer, 
     self.rep_optimizer_state, all_phis)
 ```
-Here `phi_tm1` and `phi_t` are consecutive states whereas `phi_u` and `phi_v` are random samples.
+Here `phi_current` and `phi_next` are consecutive states whereas `phi_random_u` and `phi_random_u` are randomly sampled states.
 
 **Option Learning**
 
@@ -115,14 +115,19 @@ for o in onp.random.choice(self.num_options, 1, replace=False):
   option = self.options[o]
 
   self._sample_from_replay_buffer()
-  states = self.preprocess_fn(self.replay_elements['state'])
+  current_states = self.preprocess_fn(self.replay_elements['state'])
   next_states = self.preprocess_fn(self.replay_elements['next_state'])
 
-  all_states = onp.vstack((states, next_states))
+  all_states = onp.vstack((current_states, next_states))
   rep = jax.vmap(self._get_rep, in_axes=(None, 0))(
       self.rep_params, all_states).q_values
   rep = onp.asarray(rep)
-  intr_rew = rep[len(rep) // 2:, o] - rep[:len(rep) // 2, o]
+
+  # Calculate the Laplacian representation between two consecutive states
+  # and index the representation by the current option being updated.
+  current_laplacian_o = rep[:len(rep) // 2, o]
+  next_laplacian_o = rep[len(rep) // 2:, o]
+  intr_rew = next_laplacian_o - current_laplacian_o # Line 155 in the paper
 
   # Usual Q-Learning, or your preferred RL method
 ```
