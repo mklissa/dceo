@@ -7,9 +7,12 @@ by [Martin Klissarov](https://mklissa.github.io) and [Marlos C. Machado](https:/
 
 DCEO is based on the idea of the [Representation Driven Option Disovery](https://medium.com/@marlos.cholodovskis/the-representation-driven-option-discovery-cycle-e3f5877696c2) cycle where options and representations are iteratively refined and bootstrapped from eachother. In this work, we argue that the Laplacian representation (also referred to as [Proto-Value Functions](https://homes.cs.washington.edu/~todorov/courses/amath579/reading/PVF.pdf)) is very well-suited scaffold for option discovery as it naturally encodes the topology of the environment at various timescales.
 
+
 <div align="center">
-  <img src="https://github.com/mklissa/deco_dopamine/assets/22938475/285c7ed1-f1a3-499f-8655-5802ee4738c9" width="700">
+  <img src="https://github.com/mklissa/dceo/assets/22938475/a785623e-a590-4611-a905-5f664c283f2b" width="700">
 </div>
+
+We present a more in-depth overview in the [project website](https://sites.google.com/view/dceo/) and the [blogpost](https://medium.com/@marlos.cholodovskis/deep-laplacian-based-options-for-temporally-extended-exploration-7bf8dd469838).
 
 # Atari Results
 
