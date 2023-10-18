@@ -116,7 +116,7 @@ all_phis = (phi_tm1, phi_t, phi_u, phi_v)
 ```
 Here `phi_current` and `phi_next` are consecutive states whereas `phi_random_u` and `phi_random_u` are randomly sampled states.
 
-Note that recent improvements on this representation learning method have lead to the Proper Laplacian for which a [GitHub repository](https://github.com/tarod13/laplacian_dual_dynamics) exists.
+Note that recent improvements on this representation learning method have lead to the [Proper Laplacian](https://arxiv.org/abs/2310.10833) for which a [GitHub repository](https://github.com/tarod13/laplacian_dual_dynamics) exists.
 
 **Option Learning**
 
