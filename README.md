@@ -54,7 +54,10 @@ As DCEO performs remarkably well compared to several HRL baseline (such as DIAYN
 
 **Learning the Laplacian representation**
 
-The first step is to integrate the loss for learning the [Laplacian representation](https://arxiv.org/abs/2107.05545) on which the options are based. This can be done with the following
+The first step is to integrate the loss for learning the [Laplacian representation](https://arxiv.org/abs/2107.05545) on which the options are based. This can be done with the following code.
+
+
+However, note that recent improvements on this representation learning method have lead to the [Proper Laplacian](https://arxiv.org/abs/2310.10833) for which a [GitHub repository](https://github.com/tarod13/laplacian_dual_dynamics) exists. The Proper Laplacian is **much more robust** and is better motivated theoretically. 
 
 ```
 square_div_dim = lambda x : x**2 / rep_dim
@@ -115,8 +118,6 @@ all_phis = (phi_tm1, phi_t, phi_u, phi_v)
     self.rep_optimizer_state, all_phis)
 ```
 Here `phi_current` and `phi_next` are consecutive states whereas `phi_random_u` and `phi_random_u` are randomly sampled states.
-
-Note that recent improvements on this representation learning method have lead to the [Proper Laplacian](https://arxiv.org/abs/2310.10833) for which a [GitHub repository](https://github.com/tarod13/laplacian_dual_dynamics) exists.
 
 **Option Learning**
 
